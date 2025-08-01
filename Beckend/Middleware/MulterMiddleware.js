@@ -3,7 +3,7 @@
 // import cloudinary from "../configue/Cloudnary.js";
 // import path from "path"; // Required for file extension
 
-import multer from "multer";
+
 
 // function uploadMiddleware(folderName) {
 // const storage = new CloudinaryStorage({
