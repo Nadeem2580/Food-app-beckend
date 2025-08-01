@@ -9,9 +9,12 @@ const uploadImage = express.Router();
 
 uploadImage.post(
   "/upload-image",
-  [authMiddleware, upload.any("Image")],
+   upload.single("Image"),authMiddleware,
   uploadImageContoller
 );
+
+
+
 
 
 export default uploadImage;

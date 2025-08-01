@@ -3,6 +3,8 @@
 // import cloudinary from "../configue/Cloudnary.js";
 // import path from "path"; // Required for file extension
 
+import multer from "multer";
+
 // function uploadMiddleware(folderName) {
 // const storage = new CloudinaryStorage({
 //   cloudinary: cloudinary,
@@ -26,7 +28,7 @@
 // export default upload;
 
 import multer from "multer";
-const storage = multer.diskStorage({
+const storage = multer.memoryStorage({
   destination: "./upload",
   filename: (req, file, callBacksFunc) => {
     // callBacksFunc(error(forcefully) :Boolean , fileName  )
@@ -40,5 +42,10 @@ const upload = multer({
     fileSize: 10 * 1024 * 1024,
   },
 });
+
+// const upload = multer({storage:multer.diskStorage({})})
+
+
+
 
 export default upload;
