@@ -1,5 +1,4 @@
 import { connect, mongoose } from "mongoose";
-import "dotenv/config";
 
 
 export const dbConnect =()=>{

@@ -15,11 +15,7 @@ import authMiddleware from "../Middleware/authCheck.js";
 
 const restaurantRoutes = express.Router();
 
-restaurantRoutes.post(
-  "/create-restaurant",
-  authMiddleware,
-  createRestaurantController
-);
+restaurantRoutes.post("/create-restaurant", authMiddleware, createRestaurantController);
 restaurantRoutes.post(
   "/create-restaurant-food",
   authMiddleware,

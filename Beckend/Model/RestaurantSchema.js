@@ -18,7 +18,7 @@ const schema = new mongoose.Schema({
     default: "pending",
   },
 
-  createBy: String,
+  createBy: { type: mongoose.Schema.Types.ObjectId, ref: "users", required: true },
 
   createAt: {
     type: Date,

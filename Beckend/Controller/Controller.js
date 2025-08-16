@@ -1,11 +1,9 @@
+import bcrypt from "bcryptjs";
+import fs from "fs";
+import jwt from "jsonwebtoken";
 import RestaurantModel from "../Model/RestaurantSchema.js";
 import userModel from "../Model/schema.js";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import path from "path"; // if needed
-import fs from "fs";
 // import cloudinary from "../configue/Cloudnary.js";
-import { triggerAsyncId } from "async_hooks";
 import ItemFoodSchema from "../Model/ItemCreateSchema.js";
 import { cloudinaryUplaoder } from "../configue/Cloudnary.js";
 
@@ -241,10 +239,11 @@ export const isOpenContoller = async (req, res) => {
 
 export const uploadImageContoller = async (req, res) => {
   try {
+    console.log(req.files, "filePath")
+    
     const filePath = req.files[0].path;
     const imageResponse = await cloudinaryUplaoder.upload(filePath);
 
-    // Remove Files
     fs.unlinkSync(filePath, (err, res) => {
       //
     });
