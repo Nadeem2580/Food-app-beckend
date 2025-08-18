@@ -237,28 +237,40 @@ export const isOpenContoller = async (req, res) => {
 
 // ------------ IsOpenContoller End -------------
 
-export const uploadImageContoller = async (req, res) => {
+
+export const uploadImageController = async (req, res) => {
   try {
-    console.log(req.files, "filePath")
-    
-    const filePath = req.files[0].path;
-    const imageResponse = await cloudinaryUplaoder.upload(filePath);
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
 
-    fs.unlinkSync(filePath, (err, res) => {
-      //
-    });
+    // Create a promise to upload the file to Cloudinary
+    const uploadToCloudinary = (fileBuffer) => {
+      return new Promise((resolve, reject) => {
+        const uploadStream = cloudinary.uploader.upload_stream(
+          { folder: 'your_folder_name' }, // optional folder
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          }
+        );
 
-    res.json({
-      message: "image Uploaded",
-      status: true,
-      url: imageResponse.secure_url,
+        // Create a stream from the buffer and pipe it to Cloudinary
+        streamifier.createReadStream(fileBuffer).pipe(uploadStream);
+      });
+    };
+
+    // Upload the file
+    const result = await uploadToCloudinary(req.file.buffer);
+
+    res.status(200).json({
+      message: 'File uploaded successfully',
+      url: result.secure_url,
+      public_id: result.public_id
     });
   } catch (error) {
-    res.json({
-      message: error.message,
-      status: false,
-      data: null,
-    });
+    console.error('Upload error:', error);
+    res.status(500).json({ message: 'Error uploading file', error: error.message });
   }
 };
 
@@ -356,7 +368,7 @@ export const foodItem_edit_contoller = async (req, res) => {
 
 export const getRestaurantHomeControll = async (req, res) => {
   try {
-    const getRestaurants = await RestaurantModel.find({approvedStatus : "approved"})
+    const getRestaurants = await RestaurantModel.find({ approvedStatus: "approved" })
     res.json({
       message: "Get all restaurants for home page",
       status: true,

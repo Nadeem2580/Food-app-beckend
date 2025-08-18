@@ -27,23 +27,36 @@
 // const upload = uploadMiddleware("restaurants");
 // export default upload;
 
-import multer from "multer";
-const storage = multer.memoryStorage({
-  destination: "./upload",
-  filename: (req, file, callBacksFunc) => {
-    // callBacksFunc(error(forcefully) :Boolean , fileName  )
-    callBacksFunc(false, `${new Date().getTime()} - ${file.originalname}`);
-  },
-});
+// import multer from "multer";
+// const storage = multer.memoryStorage({
+//   destination: "./upload",
+//   filename: (req, file, callBacksFunc) => {
+//     // callBacksFunc(error(forcefully) :Boolean , fileName  )
+//     callBacksFunc(false, `${new Date().getTime()} - ${file.originalname}`);
+//   },
+// });
 
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 10 * 1024 * 1024,
-  },
-});
-
+// const upload = multer({
+//   storage: storage,
+//   limits: {
+//     fileSize: 10 * 1024 * 1024,
+//   },
+// });
 // const upload = multer({storage:multer.diskStorage({})})
+
+
+// const storage = multer.memoryStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "./upload");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
+import multer from "multer";
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage });
+
 
 
 
